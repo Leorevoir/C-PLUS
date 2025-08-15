@@ -1,6 +1,3 @@
-[submodule "OOP-in-C"]
-	path = OOP-in-C
-	url = https://github.com/Leorevoir/OOP-in-C
 [submodule "external/OOP-in-C"]
 	path = external/OOP-in-C
 	url = https://github.com/Leorevoir/OOP-in-C
