@@ -17,12 +17,14 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+add_subdirectory(external/OOP-in-C, EXCLUDE_FROM_ALL)
+
 file(GLOB_RECURSE SRC_FILES "src/*.c")
 add_executable(cplus_vm ${SRC_FILES})
 
-# target_link_libraries(cplus_vm PRIVATE 
-#     pthread
-# )
+target_link_libraries(cplus_vm PRIVATE 
+    cplus_oop
+)
 
 target_compile_options(cplus_vm PRIVATE -mavx2)
 

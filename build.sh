@@ -30,6 +30,7 @@ function _base_run()
     local cmake_args="$1"
     local build_type="$2"
 
+    git submodule update --init --recursive
     mkdir -p build
     cd build || _error "mkdir failed"
 
