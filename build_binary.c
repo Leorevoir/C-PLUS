@@ -2,17 +2,17 @@
 #include "include/vm/types.h"
 
 // clang-format off
-static const Inst program[] = {
+static constexpr Inst program[] = {
     {.type = INST_PUSH, .value = 10},
     { .type = INST_PUSH, .value = 20 },
     { .type = INST_ADD, .value = 0 },
     { .type = INST_HALT, .value = 0 }
 };
 
-static const CPlusHeader header = {
+static constexpr CPlusHeader header = {
     .magic = CPLUS_VM_MAGIC_HEADER_STR,
     .version = CPLUS_VM_STANDARD_VERSION,
-    .file_size = sizeof(header) + sizeof(program),
+    .file_size = sizeof(CPlusHeader) + sizeof(program),
     .instruction_count = sizeof(program) / sizeof(Inst)
 };
 // clang-format on
