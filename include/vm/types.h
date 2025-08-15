@@ -4,20 +4,6 @@
 #include <stddef.h>
 
 typedef enum {
-    ERR_OK = 0,
-    ERR_INVALID_ARGUMENT,
-    ERR_STACK_UNDERFLOW,
-    ERR_STACK_OVERFLOW,
-    ERR_OUT_OF_MEMORY,
-    ERR_NULL_POINTER,
-    ERR_DIV_BY_ZERO,
-    ERR_ILLEGAL_INSTRUCTION,
-    ERR_ILLEGAL_INSTRUCTION_ACCESS,
-    ERR_ILLEGAL_MEMORY_ACCESS,
-    ERR_ILLEGAL_OPERAND,
-} Err;
-
-typedef enum {
     INST_PUSH,
     INST_POP,
     INST_ADD,
@@ -100,5 +86,7 @@ __attribute__((const)) static inline const char *inst_to_str(const Inst *inst)
             return "UNKNOWN";
     }
 }
+
+typedef struct VMStack VMStack;
 
 #endif /* CPLUS_VM_TYPES_H_ */

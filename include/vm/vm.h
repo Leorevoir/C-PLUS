@@ -8,10 +8,22 @@
 #include <vm/io.h>
 #include <vm/types.h>
 
+#define CPLUS_VM_DEFAULT_MAX_STACK_SIZE 1024
+
 struct _VMData {
     IOStream _io;
+
     const CPlusHeader *_header;
     const Inst *_program;
+
+    size_t _program_size;
+    size_t _inst_count;
+};
+
+struct VMStack {
+    int *memory;
+    uint32_t max;
+    uint32_t size;
 };
 
 typedef struct VM {
@@ -20,6 +32,7 @@ typedef struct VM {
     void (*start)(struct VM *self);
     void (*show)(const struct VM *self);
 
+    VMStack stack;
     struct _VMData _priv;
 } VM;
 
