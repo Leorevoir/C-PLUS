@@ -30,6 +30,7 @@ target_compile_options(cplus_vm PRIVATE -mavx2)
 
 target_include_directories(cplus_vm PRIVATE
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/external/OOP-in-C/include
 )
 
 target_compile_options(cplus_vm PRIVATE

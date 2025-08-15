@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
-static void load_from_file(const char *filename)
-{
-    printf("filename: %s\n", filename);
-}
-
 typedef struct {
     FILE *stream;
     struct stat st;
@@ -17,7 +12,7 @@ typedef struct {
     IO_Stream io;
 } VM;
 
-int main(const int argc, const char **argv)
+int main(void)
 {
     return 0;
 }
