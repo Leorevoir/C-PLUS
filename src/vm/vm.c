@@ -1,7 +1,18 @@
+#include <string.h>
+#include <vm/header.h>
 #include <vm/vm.h>
 
 __cplus__used static void vm_ctor(void *instance, va_list *args);
 __cplus__used static void vm_dtor(void *instance);
+
+static __inline void ensure_valid_header(const uint32_t *buff)
+{
+    __assert(buff, "buffer is NULL");
+
+    const CPlusHeader *header = (const CPlusHeader *) buff;
+
+    __assert(memcmp(header->magic, CPLUS_VM_MAGIC_HEADER_STR, CPLUS_VM_MAGIC_NUMBER_SIZE) == 0, "invalid magic value");
+}
 
 // clang-format off
 static const Class __cplus__used vm_class = {
@@ -27,6 +38,7 @@ static void vm_start(VM *self)
 
     io_file_exists(&priv->_io);
     io_file_read(&priv->_io);
+    ensure_valid_header(priv->_io.buff);
 }
 
 /**

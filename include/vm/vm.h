@@ -3,11 +3,13 @@
 
 #include <oop/interface.h>
 #include <oop/macros.h>
+#include <vm/types.h>
 
 #include <vm/io.h>
 
 struct _VMData {
-    IO_Stream _io;
+    IOStream _io;
+    const Inst *program;
 };
 
 typedef struct VM {

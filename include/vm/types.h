@@ -38,7 +38,7 @@ typedef enum {
     INST_CALL,
     INST_RET,
     INST_HALT,
-} Inst_Type;
+} InstType;
 
 typedef enum {
     TYPE_ANY,
@@ -49,18 +49,9 @@ typedef enum {
 } Type;
 
 typedef struct {
-    Type types[2];
-    size_t size;
-} Type_List;
-
-typedef struct {
-    Inst_Type type;
-    const char *name;
-    bool has_operand;
-    Type operand_type;
-    Type_List input;
-    Type_List output;
-} Inst_Def;
+    InstType type;
+    int value;
+} Inst;
 
 #define err_to_str(err)                                                                                                \
     ((err) == ERR_OK                                  ? "No error"                                                     \

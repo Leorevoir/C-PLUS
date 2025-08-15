@@ -1,9 +1,13 @@
 #include <memory/allocate.h>
 #include <vm/vm.h>
 
-int main(void)
+int main(const int argc, const char **argv)
 {
-    VM *vm = new (VMClass, "example/example.cp.asm");
+    if (argc != 2) {
+        return 84;
+    }
+
+    VM *vm = new (VMClass, argv[1]);
 
     vm->start(vm);
     return 0;
