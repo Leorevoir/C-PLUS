@@ -1,18 +1,10 @@
-#include <stdio.h>
-#include <sys/stat.h>
-
-typedef struct {
-    FILE *stream;
-    struct stat st;
-    char *buffer;
-    const char *filename;
-} IO_Stream;
-
-typedef struct {
-    IO_Stream io;
-} VM;
+#include <memory/allocate.h>
+#include <vm/vm.h>
 
 int main(void)
 {
+    VM *vm = new (VMClass, "example/example.cp.asm");
+
+    vm->start(vm);
     return 0;
 }
