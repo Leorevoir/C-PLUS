@@ -53,17 +53,52 @@ typedef struct {
     int value;
 } Inst;
 
-#define err_to_str(err)                                                                                                \
-    ((err) == ERR_OK                                  ? "No error"                                                     \
-            : (err) == ERR_INVALID_ARGUMENT           ? "Invalid argument"                                             \
-            : (err) == ERR_STACK_UNDERFLOW            ? "Stack underflow"                                              \
-            : (err) == ERR_STACK_OVERFLOW             ? "Stack overflow"                                               \
-            : (err) == ERR_OUT_OF_MEMORY              ? "Out of memory"                                                \
-            : (err) == ERR_NULL_POINTER               ? "Null pointer"                                                 \
-            : (err) == ERR_DIV_BY_ZERO                ? "Division by zero"                                             \
-            : (err) == ERR_ILLEGAL_INSTRUCTION        ? "Illegal instruction"                                          \
-            : (err) == ERR_ILLEGAL_INSTRUCTION_ACCESS ? "Illegal instruction access"                                   \
-            : (err) == ERR_ILLEGAL_MEMORY_ACCESS      ? "Illegal memory access"                                        \
-            : (err) == ERR_ILLEGAL_OPERAND            ? "Illegal operand"                                              \
-                                                      : "Unknown error")
+__attribute__((const)) static inline const char *inst_to_str(const Inst *inst)
+{
+    switch (inst->type) {
+        case INST_PUSH:
+            return "PUSH";
+        case INST_POP:
+            return "POP";
+        case INST_ADD:
+            return "ADD";
+        case INST_SUB:
+            return "SUB";
+        case INST_MUL:
+            return "MUL";
+        case INST_DIV:
+            return "DIV";
+        case INST_MOD:
+            return "MOD";
+        case INST_NEG:
+            return "NEG";
+        case INST_EQ:
+            return "EQ";
+        case INST_NEQ:
+            return "NEQ";
+        case INST_LT:
+            return "LT";
+        case INST_GT:
+            return "GT";
+        case INST_LTE:
+            return "LTE";
+        case INST_GTE:
+            return "GTE";
+        case INST_JMP:
+            return "JMP";
+        case INST_JZ:
+            return "JZ";
+        case INST_JNZ:
+            return "JNZ";
+        case INST_CALL:
+            return "CALL";
+        case INST_RET:
+            return "RET";
+        case INST_HALT:
+            return "HALT";
+        default:
+            return "UNKNOWN";
+    }
+}
+
 #endif /* CPLUS_VM_TYPES_H_ */

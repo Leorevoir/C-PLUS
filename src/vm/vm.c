@@ -5,13 +5,15 @@
 __cplus__used static void vm_ctor(void *instance, va_list *args);
 __cplus__used static void vm_dtor(void *instance);
 
-static __inline void ensure_valid_header(const uint32_t *buff)
+static __inline __cplus__const const CPlusHeader *get_valid_header(const uint32_t *buff)
 {
     __assert(buff, "buffer is NULL");
 
     const CPlusHeader *header = (const CPlusHeader *) buff;
 
     __assert(memcmp(header->magic, CPLUS_VM_MAGIC_HEADER_STR, CPLUS_VM_MAGIC_NUMBER_SIZE) == 0, "invalid magic value");
+
+    return header;
 }
 
 // clang-format off
@@ -38,7 +40,25 @@ static void vm_start(VM *self)
 
     io_file_exists(&priv->_io);
     io_file_read(&priv->_io);
-    ensure_valid_header(priv->_io.buff);
+
+    priv->_header = get_valid_header(priv->_io.buff);
+    priv->_program = (const Inst *) ((uint8_t *) priv->_io.buff + sizeof(CPlusHeader));
+}
+
+static void vm_show(const VM *self)
+{
+    const struct _VMData *priv = &self->_priv;
+    const size_t program_size = (const size_t) priv->_io.st.st_size - sizeof(CPlusHeader);
+    const size_t inst_count = program_size / sizeof(Inst);
+
+    printf("Program contains %zu instructions:\n", inst_count);
+    printf("----------------------------------------\n");
+    for (size_t i = 0; i < inst_count; i++) {
+        const Inst *inst = &priv->_program[i];
+
+        printf("%04zu: %-8s %d\n", i, inst_to_str(inst), inst->value);
+    }
+    printf("----------------------------------------\n");
 }
 
 /**
@@ -52,6 +72,7 @@ static void vm_ctor(Object *instance, va_list *args)
 
     self->class = VMGetClass();
     self->start = vm_start;
+    self->show = vm_show;
 
     priv->_io.src = va_arg(*args, const char *);
 }

@@ -8,9 +8,9 @@
 
 #include <stdint.h>
 
-typedef struct {
+typedef struct __attribute__((packed, aligned(4))) {
     uint8_t magic[CPLUS_VM_MAGIC_NUMBER_SIZE];
-    uint8_t version;
+    uint32_t version;
     uint32_t file_size;
     uint32_t instruction_count;
 } CPlusHeader;

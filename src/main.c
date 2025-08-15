@@ -10,5 +10,6 @@ int main(const int argc, const char **argv)
     VM *vm = new (VMClass, argv[1]);
 
     vm->start(vm);
+    vm->show(vm);
     return 0;
 }

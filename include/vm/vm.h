@@ -3,19 +3,22 @@
 
 #include <oop/interface.h>
 #include <oop/macros.h>
-#include <vm/types.h>
 
+#include <vm/header.h>
 #include <vm/io.h>
+#include <vm/types.h>
 
 struct _VMData {
     IOStream _io;
-    const Inst *program;
+    const CPlusHeader *_header;
+    const Inst *_program;
 };
 
 typedef struct VM {
     const Class *class;
 
     void (*start)(struct VM *self);
+    void (*show)(const struct VM *self);
 
     struct _VMData _priv;
 } VM;
