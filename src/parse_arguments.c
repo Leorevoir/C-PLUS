@@ -50,7 +50,7 @@ Arguments parse_arguments(const int argc, const char **argv)
             continue;
         }
 
-        args.inputs->append(args.inputs, argv[i]);
+        args.inputs->append(args.inputs, &argv[i]);
     }
 
     __assert(args.inputs->_priv._size > 0, "no input files specified");
