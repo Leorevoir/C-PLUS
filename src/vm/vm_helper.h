@@ -3,50 +3,40 @@
 
 #include <vm/types.h>
 
-void push(VMStack *stack, const int value);
-int pop(VMStack *stack);
+void inst_push(VMStack *stack, const int value);
+int inst_pop(VMStack *stack);
+
+void inst_add(VMStack *stack);
+void inst_sub(VMStack *stack);
+void inst_mul(VMStack *stack);
+void inst_div(VMStack *stack);
+void inst_mod(VMStack *stack);
 
 #define dispatch_instruction(stack, inst)                                                                              \
     switch ((inst)->type) {                                                                                            \
         case INST_PUSH:                                                                                                \
-            push(stack, (inst)->value);                                                                                \
+            inst_push(stack, (inst)->value);                                                                           \
             break;                                                                                                     \
         case INST_POP:                                                                                                 \
-            pop(stack);                                                                                                \
+            inst_pop(stack);                                                                                           \
             break;                                                                                                     \
-        case INST_ADD: {                                                                                               \
-            int b = pop(stack);                                                                                        \
-            int a = pop(stack);                                                                                        \
-            push(stack, a + b);                                                                                        \
-        } break;                                                                                                       \
-        case INST_SUB: {                                                                                               \
-            int b = pop(stack);                                                                                        \
-            int a = pop(stack);                                                                                        \
-            push(stack, a - b);                                                                                        \
-        } break;                                                                                                       \
-        case INST_MUL: {                                                                                               \
-            int b = pop(stack);                                                                                        \
-            int a = pop(stack);                                                                                        \
-            push(stack, a * b);                                                                                        \
-        } break;                                                                                                       \
-        case INST_DIV: {                                                                                               \
-            int b = pop(stack);                                                                                        \
-            int a = pop(stack);                                                                                        \
-            if (b == 0) { /* TODO: handle division by zero */                                                          \
-            } else {                                                                                                   \
-                push(stack, a / b);                                                                                    \
-            }                                                                                                          \
-        } break;                                                                                                       \
-        case INST_MOD: {                                                                                               \
-            int b = pop(stack);                                                                                        \
-            int a = pop(stack);                                                                                        \
-            if (b == 0) { /* TODO: handle division by zero */                                                          \
-            } else {                                                                                                   \
-                push(stack, a % b);                                                                                    \
-            }                                                                                                          \
-        } break;                                                                                                       \
+        case INST_ADD:                                                                                                 \
+            inst_add(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_SUB:                                                                                                 \
+            inst_sub(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_MUL:                                                                                                 \
+            inst_mul(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_DIV:                                                                                                 \
+            inst_div(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_MOD:                                                                                                 \
+            inst_div(stack);                                                                                           \
+            break;                                                                                                     \
         case INST_NEG:                                                                                                 \
-            push(stack, -pop(stack));                                                                                  \
+            inst_push(stack, -inst_pop(stack));                                                                        \
             break;                                                                                                     \
         default:                                                                                                       \
             break;                                                                                                     \

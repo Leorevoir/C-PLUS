@@ -3,7 +3,7 @@
 
 #include "../vm_helper.h"
 
-void push(VMStack *stack, const int value)
+void inst_push(VMStack *stack, const int value)
 {
     __assert(stack->size < stack->max, "stack overflow");
     stack->memory[stack->size++] = value;
