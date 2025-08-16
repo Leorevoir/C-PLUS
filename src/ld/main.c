@@ -33,8 +33,8 @@ int main(const int argc, const char **argv)
         return version(argv[0]);
     }
 
-    // Linker *linker = new (LinkerClass, args.inputs, args.output, args.flags);
-    //
-    // linker->link(linker);
-    // return 0;
+    Linker *linker = new (LinkerClass, args.inputs, args.output, args.flags);
+
+    linker->link(linker);
+    return 0;
 }
