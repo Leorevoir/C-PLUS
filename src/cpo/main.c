@@ -5,27 +5,42 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+// clang-format off
 static constexpr CPlusInst program[4] = {
-    {.type = INST_MOV_IMM, .destination = 0, .registr = {0}, .immediate = 2},
-    {.type = INST_MOV_IMM, .destination = 1, .registr = {0}, .immediate = 3},
-    {.type = INST_ADD, .destination = 2, .registr = {0, 1}, .immediate = 0},
-    {.type = INST_HALT, .destination = 0, .registr = {0, 0}, .immediate = 0},
+    {
+        .type = INST_MOV_IMM,
+        .destination = 0,
+        .registr = {0},
+        .immediate = 2
+    },
+    {
+        .type = INST_MOV_IMM,
+        .destination = 1,
+        .registr = {0},
+        .immediate = 3
+    },
+    {
+        .type = INST_ADD,
+        .destination = 2,
+        .registr = {0, 1},
+        .immediate = 0
+    },
+    {
+        .type = INST_HALT,
+        .destination = 0,
+        .registr = {0, 0},
+        .immediate = 0
+    },
 };
 
-static constexpr CPlusHeader header = {
+static constexpr  CPlusHeader header = {
     .magic = CPLUS_MAGIC_U8,
     .version = {CPLUS_VERSION_0, CPLUS_VERSION_1},
     .arch = CPLUS_ARCH_X86_64,
     .program_size = sizeof(program),
-    .offsets =
-        {
-            [CPLUS_OFFSET_ENTRY_POINT] = 0,
-            [CPLUS_OFFSET_CODE] = sizeof(CPlusHeader),
-            [CPLUS_OFFSET_SYMBOLS] = 0,
-            [CPLUS_OFFSET_RELOCATIONS] = 0,
-            [CPLUS_OFFSET_DATA] = 0,
-        },
+    .entry = 3,
 };
+// clang-format on
 
 int main(void)
 {

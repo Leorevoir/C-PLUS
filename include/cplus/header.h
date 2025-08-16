@@ -52,7 +52,7 @@ typedef struct {
     CPlusVersion version;
     u32 arch;
     u32 program_size;
-    u32 offsets[CPLUS_OFFSET_COUNT];
+    u32 entry;
 } CPlusHeader;
 
 __cplus__const static inline const char *cplus_arch_to_string(CPlusArch arch)

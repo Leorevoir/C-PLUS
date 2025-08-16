@@ -25,6 +25,7 @@ static __inline void _allocate_cplus_buffer(Linker *self)
         "invalid version, failed to link");
     __assert(self->header.arch == CPLUS_ARCH_X86_64, "invalid architecture, failed to link");
     __assert(self->header.program_size > 0, "invalid program size, failed to link");
+    __assert(self->header.entry < self->header.program_size, "invalid entry point, failed to link");
 
     self->stream.size = self->header.program_size;
     allocate(self->stream.buffer, self->stream.size);
@@ -58,11 +59,7 @@ static void linker_link(Linker *self)
     printf("%sversion:%s  %d.%d\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, self->header.version.major, self->header.version.minor);
     printf("%sarch:%s     %s\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, cplus_arch_to_string(self->header.arch));
     printf("%sprogram size:%s %d bytes\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, self->header.program_size);
-    printf("%soffsets:%s\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET);
-
-    for (u8 i = 0; i < CPLUS_OFFSET_COUNT; ++i) {
-        printf("    %s%-12s%s %d\n", CPLUS_LOG_YELLOW, cplus_offset_to_string(i), CPLUS_LOG_RESET, self->header.offsets[i]);
-    }
+    printf("%sentry: %u%s\n", CPLUS_LOG_YELLOW, self->header.entry, CPLUS_LOG_RESET);
     printf("%s__END__%s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
 
     for (u32 i = 0; i < self->header.program_size; ++i) {
