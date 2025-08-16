@@ -33,6 +33,26 @@ static __inline void _allocate_cplus_buffer(Linker *self)
     __assert(br == (ssize_t) self->stream.size, "failed to read program, failed to link");
 }
 
+static __inline void linker_debug_show(Linker *self)
+{
+    printf("%s__HEADER__      %s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
+    printf("%smagic:%s        %.2s\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, self->header.magic);
+    printf("%sversion:%s      %d.%d\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, self->header.version.major, self->header.version.minor);
+    printf("%sarch:%s         %s\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, cplus_arch_to_string(self->header.arch));
+    printf("%sprogram size:%s %d bytes\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, self->header.program_size);
+    printf("%sentry:%s        %u\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, self->header.entry);
+    printf("%s__END__%s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
+
+    printf("\n%s__INST__%s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
+    for (u32 i = 0; i < self->header.program_size; ++i) {
+        printf("%02x ", self->stream.buffer[i]);
+        if ((i + 1) % 16 == 0) {
+            printf("\n");
+        }
+    }
+    printf("%s__END__%s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
+}
+
 // clang-format off
 static const Class __cplus__used linker_class = {
     .__size__ = sizeof(Linker),
@@ -53,23 +73,7 @@ __cplus__const const Class *LinkerGetClass(void)
 
 static void linker_link(Linker *self)
 {
-    printf("%s__HEADER__      %s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
-    printf("%smagic:%s        %.2s\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, self->header.magic);
-    printf("%sversion:%s      %d.%d\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, self->header.version.major,
-        self->header.version.minor);
-    printf("%sarch:%s         %s\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, cplus_arch_to_string(self->header.arch));
-    printf("%sprogram size:%s %d bytes\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, self->header.program_size);
-    printf("%sentry:%s        %u\n", CPLUS_LOG_YELLOW, CPLUS_LOG_RESET, self->header.entry);
-    printf("%s__END__%s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
-
-    printf("\n%s__INST__%s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
-    for (u32 i = 0; i < self->header.program_size; ++i) {
-        printf("%02x ", self->stream.buffer[i]);
-        if ((i + 1) % 16 == 0) {
-            printf("\n");
-        }
-    }
-    printf("%s__END__%s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
+    linker_debug_show(self);
 }
 
 /**
