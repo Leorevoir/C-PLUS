@@ -1,52 +1,69 @@
 #ifndef CPLUS_stack_HELPER_H_
 #define CPLUS_stack_HELPER_H_
 
-#include <vm/types.h>
-
-void push(VMStack *stack, const int value);
-int pop(VMStack *stack);
+#include "instructions/header.h"
 
 #define dispatch_instruction(stack, inst)                                                                              \
     switch ((inst)->type) {                                                                                            \
         case INST_PUSH:                                                                                                \
-            push(stack, (inst)->value);                                                                                \
+            inst_push(stack, (inst)->value);                                                                           \
             break;                                                                                                     \
         case INST_POP:                                                                                                 \
-            pop(stack);                                                                                                \
+            inst_pop(stack);                                                                                           \
             break;                                                                                                     \
-        case INST_ADD: {                                                                                               \
-            int b = pop(stack);                                                                                        \
-            int a = pop(stack);                                                                                        \
-            push(stack, a + b);                                                                                        \
-        } break;                                                                                                       \
-        case INST_SUB: {                                                                                               \
-            int b = pop(stack);                                                                                        \
-            int a = pop(stack);                                                                                        \
-            push(stack, a - b);                                                                                        \
-        } break;                                                                                                       \
-        case INST_MUL: {                                                                                               \
-            int b = pop(stack);                                                                                        \
-            int a = pop(stack);                                                                                        \
-            push(stack, a * b);                                                                                        \
-        } break;                                                                                                       \
-        case INST_DIV: {                                                                                               \
-            int b = pop(stack);                                                                                        \
-            int a = pop(stack);                                                                                        \
-            if (b == 0) { /* TODO: handle division by zero */                                                          \
-            } else {                                                                                                   \
-                push(stack, a / b);                                                                                    \
-            }                                                                                                          \
-        } break;                                                                                                       \
-        case INST_MOD: {                                                                                               \
-            int b = pop(stack);                                                                                        \
-            int a = pop(stack);                                                                                        \
-            if (b == 0) { /* TODO: handle division by zero */                                                          \
-            } else {                                                                                                   \
-                push(stack, a % b);                                                                                    \
-            }                                                                                                          \
-        } break;                                                                                                       \
+        case INST_ADD:                                                                                                 \
+            inst_add(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_SUB:                                                                                                 \
+            inst_sub(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_MUL:                                                                                                 \
+            inst_mul(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_DIV:                                                                                                 \
+            inst_div(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_MOD:                                                                                                 \
+            inst_div(stack);                                                                                           \
+            break;                                                                                                     \
         case INST_NEG:                                                                                                 \
-            push(stack, -pop(stack));                                                                                  \
+            inst_push(stack, -inst_pop(stack));                                                                        \
+            break;                                                                                                     \
+        case INST_EQ:                                                                                                  \
+            inst_eq(stack);                                                                                            \
+            break;                                                                                                     \
+        case INST_NEQ:                                                                                                 \
+            inst_neq(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_LT:                                                                                                  \
+            inst_lt(stack);                                                                                            \
+            break;                                                                                                     \
+        case INST_GT:                                                                                                  \
+            inst_gt(stack);                                                                                            \
+            break;                                                                                                     \
+        case INST_LTE:                                                                                                 \
+            inst_lte(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_GTE:                                                                                                 \
+            inst_gte(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_JMP:                                                                                                 \
+            inst_jmp(stack, (inst)->value);                                                                            \
+            break;                                                                                                     \
+        case INST_JZ:                                                                                                  \
+            inst_jz(stack, (inst)->value);                                                                             \
+            break;                                                                                                     \
+        case INST_JNZ:                                                                                                 \
+            inst_jnz(stack, (inst)->value);                                                                            \
+            break;                                                                                                     \
+        case INST_CALL:                                                                                                \
+            inst_call(stack, (inst)->value);                                                                           \
+            break;                                                                                                     \
+        case INST_RET:                                                                                                 \
+            inst_ret(stack);                                                                                           \
+            break;                                                                                                     \
+        case INST_HALT:                                                                                                \
+            inst_halt(stack);                                                                                          \
             break;                                                                                                     \
         default:                                                                                                       \
             break;                                                                                                     \

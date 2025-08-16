@@ -17,13 +17,14 @@ struct _VMData {
     const Inst *_program;
 
     size_t _program_size;
-    size_t _inst_count;
 };
 
 struct VMStack {
     int *memory;
     uint32_t max;
     uint32_t size;
+    int inst_count;
+    int current;
 };
 
 typedef struct VM {

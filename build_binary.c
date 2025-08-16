@@ -3,10 +3,12 @@
 
 // clang-format off
 static constexpr Inst program[] = {
-    {.type = INST_PUSH, .value = 10},
-    { .type = INST_PUSH, .value = 20 },
-    { .type = INST_ADD, .value = 0 },
-    { .type = INST_HALT, .value = 0 }
+    {INST_PUSH, 5}, 
+    {INST_PUSH, 0},
+    {INST_JZ, 2},
+    {INST_PUSH, 99},
+    {INST_PUSH, 42},
+    {INST_HALT, 0}
 };
 
 static constexpr CPlusHeader header = {

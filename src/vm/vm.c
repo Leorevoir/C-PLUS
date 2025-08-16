@@ -46,10 +46,10 @@ static void vm_start(VM *self)
     priv->_header = get_valid_header(priv->_io.buff);
     priv->_program = (const Inst *) ((uint8_t *) priv->_io.buff + sizeof(CPlusHeader));
     priv->_program_size = (const size_t) priv->_io.st.st_size - sizeof(CPlusHeader);
-    priv->_inst_count = priv->_program_size / sizeof(Inst);
+    self->stack.inst_count = (int) (priv->_program_size / sizeof(Inst));
 
-    for (size_t i = 0; i < priv->_inst_count; ++i) {
-        const Inst *inst = &priv->_program[i];
+    for (self->stack.current = 0; self->stack.current < self->stack.inst_count; ++self->stack.current) {
+        const Inst *inst = &priv->_program[self->stack.current];
 
         dispatch_instruction(&self->stack, inst);
     }
@@ -59,12 +59,13 @@ static void vm_show(const VM *self)
 {
     const struct _VMData *priv = &self->_priv;
 
-    printf("program contains %zu instructions:\n", priv->_inst_count);
-    for (size_t i = 0; i < priv->_inst_count; ++i) {
+    printf("program contains %u instructions:\n", self->stack.inst_count);
+    for (int i = 0; i < self->stack.inst_count; ++i) {
         const Inst *inst = &priv->_program[i];
 
-        printf("%04zu: %-8s %d\n", i, inst_to_str(inst), inst->value);
+        printf("%04d:\t%s%-8s%s\t%d\n", i, CPLUS_LOG_MAGENTA, inst_to_str(inst), CPLUS_LOG_RESET, inst->value);
     }
+    printf("STACK IS AT:\t\t%d\n", self->stack.memory[self->stack.size - 1]);
 }
 
 /**
