@@ -52,9 +52,9 @@ typedef enum {
 
 typedef struct {
     CPlusInstType type;
-    u8 destination;
-    u8 registr[2];
-    u8 immediate;
+    u8 dest;
+    u8 src[2];
+    u8 imm;
 } CPlusInst;
 
 #endif /* CPLUS_LD_INST_TYPES_H_ */

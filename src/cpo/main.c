@@ -9,27 +9,27 @@
 static constexpr CPlusInst program[4] = {
     {
         .type = INST_MOV_IMM,
-        .destination = 0,
-        .registr = {0},
-        .immediate = 2
+        .dest = 0,
+        .src = {0},
+        .imm = 2
     },
     {
         .type = INST_MOV_IMM,
-        .destination = 1,
-        .registr = {0},
-        .immediate = 3
+        .dest = 1,
+        .src = {0},
+        .imm = 3
     },
     {
         .type = INST_ADD,
-        .destination = 2,
-        .registr = {0, 1},
-        .immediate = 0
+        .dest = 2,
+        .src = {0, 1},
+        .imm = 0
     },
     {
         .type = INST_HALT,
-        .destination = 0,
-        .registr = {0, 0},
-        .immediate = 0
+        .dest = 0,
+        .src = {0, 0},
+        .imm = 0
     },
 };
 
