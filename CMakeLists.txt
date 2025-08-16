@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(cplus_vm VERSION 0.0.1 LANGUAGES C)
+project(cplus_ld VERSION 0.0.1 LANGUAGES C)
 
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -20,20 +20,20 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 add_subdirectory(external/OOP-in-C EXCLUDE_FROM_ALL)
 
 file(GLOB_RECURSE SRC_FILES "src/*.c")
-add_executable(cplus_vm ${SRC_FILES})
+add_executable(cplus_ld ${SRC_FILES})
 
-target_link_libraries(cplus_vm PRIVATE 
+target_link_libraries(cplus_ld PRIVATE 
     cplus_oop
 )
 
-target_compile_options(cplus_vm PRIVATE -mavx2)
+target_compile_options(cplus_ld PRIVATE -mavx2)
 
-target_include_directories(cplus_vm PRIVATE
+target_include_directories(cplus_ld PRIVATE
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/external/OOP-in-C/include
 )
 
-target_compile_options(cplus_vm PRIVATE
+target_compile_options(cplus_ld PRIVATE
     -Wall
     -Wextra
     -Werror
@@ -58,5 +58,5 @@ target_compile_options(cplus_vm PRIVATE
 option(ENABLE_DEBUG "Enable debug macros and flags" OFF)
 
 if(ENABLE_DEBUG)
-    target_compile_definitions(cplus_vm PRIVATE DEBUG=1)
+    target_compile_definitions(cplus_ld PRIVATE DEBUG=1)
 endif()

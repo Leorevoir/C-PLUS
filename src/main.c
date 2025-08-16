@@ -1,5 +1,5 @@
+#include "ld/linker.h"
 #include <memory/allocate.h>
-#include <vm/vm.h>
 
 int main(const int argc, const char **argv)
 {
@@ -7,9 +7,8 @@ int main(const int argc, const char **argv)
         return 84;
     }
 
-    VM *vm = new (VMClass, argv[1]);
+    Linker *linker = new (LinkerClass, argv[1]);
 
-    vm->start(vm);
-    vm->show(vm);
+    linker->link(linker);
     return 0;
 }
