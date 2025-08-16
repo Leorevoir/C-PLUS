@@ -6,30 +6,10 @@
 #include <unistd.h>
 
 static constexpr CPlusInst program[4] = {
-    {
-        .type = INST_MOV_IMM,
-        .destination = 0,
-        .registr = {0, 0},
-        .immediate = 42,
-    },
-    {
-        .type = INST_MOV_IMM,
-        .destination = 1,
-        .registr = {0, 0},
-        .immediate = 100,
-    },
-    {
-        .type = INST_ADD,
-        .destination = 2,
-        .registr = {0, 1},
-        .immediate = 0,
-    },
-    {
-        .type = INST_HALT,
-        .destination = 0,
-        .registr = {0, 0},
-        .immediate = 0,
-    },
+    {.type = INST_MOV_IMM, .destination = 0, .registr = {0}, .immediate = 2},
+    {.type = INST_MOV_IMM, .destination = 1, .registr = {0}, .immediate = 3},
+    {.type = INST_ADD, .destination = 2, .registr = {0, 1}, .immediate = 0},
+    {.type = INST_HALT, .destination = 0, .registr = {0, 0}, .immediate = 0},
 };
 
 static constexpr CPlusHeader header = {

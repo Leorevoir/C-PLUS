@@ -12,7 +12,7 @@ __cplus__used static void linker_dtor(void *instance);
 
 static __inline void _allocate_cplus_buffer(Linker *self)
 {
-    const ssize_t br = read(self->stream.fd, &self->header, sizeof(self->header));
+    ssize_t br = read(self->stream.fd, &self->header, sizeof(self->header));
 
     __assert(br == sizeof(self->header), "invalid header, failed to link");
 
@@ -27,6 +27,8 @@ static __inline void _allocate_cplus_buffer(Linker *self)
 
     self->stream.size = self->header.program_size;
     allocate(self->stream.buffer, self->stream.size);
+    br = read(self->stream.fd, self->stream.buffer, self->stream.size);
+    __assert(br == (ssize_t) self->stream.size, "failed to read program, failed to link");
 }
 
 // clang-format off
@@ -61,6 +63,13 @@ static void linker_link(Linker *self)
         printf("    %s%-12s%s %d\n", CPLUS_LOG_YELLOW, cplus_offset_to_string(i), CPLUS_LOG_RESET, self->header.offsets[i]);
     }
     printf("%s__END__%s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
+
+    for (u32 i = 0; i < self->header.program_size; ++i) {
+        printf("%02x ", self->stream.buffer[i]);
+        if ((i + 1) % 16 == 0) {
+            printf("\n");
+        }
+    }
 }
 
 /**

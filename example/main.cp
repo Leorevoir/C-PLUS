@@ -1,18 +1,11 @@
-def dummy_function() -> int
+def add(a: int, b:int) -> int
 {
-    x = 5;
-
-    if x > 0 {
-        return x;
-    } else {
-        return 0;
-    }
+    return a + b;
 }
 
 def main() -> int
 {
-    if dummy_function() {
-        return 0;
-    }
-    return 84;
+    result = add(2, 3);
+    print("result: " + result);
+    return 0;
 }
