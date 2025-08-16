@@ -3,7 +3,7 @@
 
 #define CPLUS_MAX_SYMBOL_SIZE 64
 
-#include <ld/types.h>
+#include <cplus/types.h>
 
 typedef enum {
     CPO_SYMBOL_TYPE_FUNCTION = 0x01,

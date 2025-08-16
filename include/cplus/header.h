@@ -1,7 +1,7 @@
 #ifndef CPLUS_LD_HEADER_H_
 #define CPLUS_LD_HEADER_H_
 
-#include <ld/types.h>
+#include <cplus/types.h>
 
 #define CPLUS_MAGIC_SIZE 5
 #define CPLUS_MAGIC "CPLUS"

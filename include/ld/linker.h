@@ -4,9 +4,8 @@
 #include <oop/interface.h>
 #include <oop/macros.h>
 
-#include <ld/header.h>
-
-#include <ld/io.h>
+#include <cplus/header.h>
+#include <cplus/io.h>
 
 typedef struct Linker {
     const Class *class;

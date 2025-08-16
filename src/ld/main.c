@@ -1,4 +1,4 @@
-#include "ld/linker.h"
+#include <ld/linker.h>
 #include <memory/allocate.h>
 
 int main(const int argc, const char **argv)

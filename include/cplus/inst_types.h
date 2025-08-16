@@ -1,7 +1,7 @@
 #ifndef CPLUS_LD_INST_TYPES_H_
 #define CPLUS_LD_INST_TYPES_H_
 
-#include <ld/types.h>
+#include <cplus/types.h>
 
 typedef enum {
     TYPE_INT,

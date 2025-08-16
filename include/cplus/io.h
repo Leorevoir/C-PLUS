@@ -1,7 +1,7 @@
 #ifndef CPLUS_LD_IO_H_
 #define CPLUS_LD_IO_H_
 
-#include <ld/types.h>
+#include <cplus/types.h>
 
 #include <sys/stat.h>
 

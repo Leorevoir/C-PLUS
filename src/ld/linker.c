@@ -1,6 +1,7 @@
 #include <error/assert.h>
-#include <ld/linker.h>
 #include <memory/allocate.h>
+
+#include <ld/linker.h>
 
 #include <fcntl.h>
 #include <stdio.h>
