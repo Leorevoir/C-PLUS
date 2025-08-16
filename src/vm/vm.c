@@ -63,8 +63,9 @@ static void vm_show(const VM *self)
     for (size_t i = 0; i < priv->_inst_count; ++i) {
         const Inst *inst = &priv->_program[i];
 
-        printf("%04zu: %-8s %d\n", i, inst_to_str(inst), inst->value);
+        printf("%04zu:\t%s%-8s%s\t%d\n", i, CPLUS_LOG_MAGENTA, inst_to_str(inst), CPLUS_LOG_RESET, inst->value);
     }
+    printf("STACK IS AT:\t\t%d\n", self->stack.memory[self->stack.size - 1]);
 }
 
 /**
