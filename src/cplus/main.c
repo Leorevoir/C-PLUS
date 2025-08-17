@@ -1,4 +1,5 @@
 #include "cplus/lexer.h"
+#include "cplus/parser.h"
 #include <cplus/header.h>
 #include <error/assert.h>
 #include <parse_arguments.h>
@@ -36,10 +37,13 @@ int main(const int argc, const char **argv)
         return version(argv[0]);
     }
 
-    Lexer *lexer = new (LexerClass, args.inputs, args.output, args.flags);
+    array_foreach(args.inputs, const char *, input, {
+        Lexer *lexer = new (LexerClass, *input, args.flags);
+        Parser *parser = new (ParserClass, lexer);
 
-    lexer->lex(lexer);
-    lexer->show(lexer);
+        parser->ast(parser);
+        parser->show(parser);
+    });
 
     return 0;
 }
