@@ -131,7 +131,6 @@ typedef struct Lexer {
     void (*show)(const struct Lexer *self);
 
     CPlusFile input;
-    int flags;
 } Lexer;
 
 __cplus__const const Class *LexerGetClass(void);

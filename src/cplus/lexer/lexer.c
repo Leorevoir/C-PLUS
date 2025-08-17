@@ -215,8 +215,6 @@ static void lexer_ctor(void *instance, va_list *args)
     self->lex = lexer_lex;
     self->show = lexer_show;
     self->input.stream.filename = va_arg(*args, const char *);
-    self->flags = va_arg(*args, int);
-
     lexer_load_inputs(&self->input);
 }
 

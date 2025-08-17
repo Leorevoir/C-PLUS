@@ -47,13 +47,7 @@ static void parser_ctor(void *instance, va_list *args)
     self->ast = parser_ast;
     self->show = parser_show;
 
-    Lexer *lexer = va_arg(*args, Lexer *);
-
-    lexer->lex(lexer);
-
-    if (lexer->flags & ARGUMENT_FLAG_DEBUG) {
-        lexer->show(lexer);
-    }
+    const Lexer *lexer = va_arg(*args, const Lexer *);
 
     self->tokens = lexer->input.tokens;
     self->buffer = (const char *) lexer->input.stream.buffer;

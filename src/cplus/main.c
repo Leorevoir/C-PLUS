@@ -6,6 +6,8 @@
 
 #include <stdio.h>
 
+static Arguments args;
+
 static __inline int usage(const char *program)
 {
     printf("%sUSAGE:%s\n", CPLUS_LOG_MAGENTA, CPLUS_LOG_RESET);
@@ -26,9 +28,41 @@ static __inline int version(const char *program)
     return 0;
 }
 
+static __inline const Lexer *cplus_compiler_lexer(const char *input)
+{
+    Lexer *lexer = new (LexerClass, input);
+
+    lexer->lex(lexer);
+    if (args.flags & ARGUMENT_FLAG_DEBUG) {
+        lexer->show(lexer);
+    }
+    return (const Lexer *) lexer;
+}
+
+static __inline const Parser *cplus_compiler_parser(const Lexer *lexer)
+{
+    Parser *parser = new (ParserClass, lexer);
+
+    parser->ast(parser);
+    if (args.flags & ARGUMENT_FLAG_DEBUG) {
+        parser->show(parser);
+    }
+    return (const Parser *) parser;
+}
+
+static __inline void cplus_compiler_routine(void)
+{
+    array_foreach(args.inputs, const char *, input, {
+        const Lexer *lexer = cplus_compiler_lexer(*input);
+        const Parser *parser = cplus_compiler_parser(lexer);
+
+        (void) parser;
+    });
+}
+
 int main(const int argc, const char **argv)
 {
-    const Arguments args = parse_arguments(argc, argv);
+    args = parse_arguments(argc, argv);
 
     if (args.flags & ARGUMENT_FLAG_HELP) {
         return usage(argv[0]);
@@ -37,13 +71,6 @@ int main(const int argc, const char **argv)
         return version(argv[0]);
     }
 
-    array_foreach(args.inputs, const char *, input, {
-        Lexer *lexer = new (LexerClass, *input, args.flags);
-        Parser *parser = new (ParserClass, lexer);
-
-        parser->ast(parser);
-        parser->show(parser);
-    });
-
+    cplus_compiler_routine();
     return 0;
 }
