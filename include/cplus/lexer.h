@@ -124,19 +124,13 @@ typedef struct {
     Array *tokens;
 } CPlusFile;
 
-typedef struct {
-    IOStream stream;
-} CPlusBinaryFile;
-
 typedef struct Lexer {
     const Class *class;
 
     void (*lex)(struct Lexer *self);
     void (*show)(const struct Lexer *self);
 
-    CPlusBinaryFile output;
-    CPlusFile *files;
-    size_t file_count;
+    CPlusFile input;
     int flags;
 } Lexer;
 
