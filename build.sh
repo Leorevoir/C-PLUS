@@ -6,7 +6,7 @@ ILC="\033[3m"
 ORG="\033[1;33m"
 RST="\033[0m"
 
-PROGRAM_NAME="cplus_ld cplus_cpo"
+PROGRAM_NAME="cplus_ld cplus_cpo cplus"
 UNIT_TESTS_NAME="unit_tests"
 
 function _error()
