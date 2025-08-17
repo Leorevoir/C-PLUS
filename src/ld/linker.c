@@ -1,4 +1,3 @@
-#include "oop/array.h"
 #include <error/assert.h>
 #include <memory/allocate.h>
 
@@ -74,7 +73,7 @@ __cplus__const const Class *LinkerGetClass(void)
 
 static void linker_link(Linker *self)
 {
-    for (u32 i = 0; i < self->inputs->size; ++i) {
+    for (u32 i = 0; i < self->input_count; ++i) {
         _read_cplus_cpo(&self->inputs[i]);
         _linker_debug_show(&self->inputs[i]);
     }
@@ -89,11 +88,10 @@ static __inline void linker_load_inputs(Linker *self, const Array *array)
     InputCPOFile *inputs = self->inputs;
 
     array_foreach(array, const char *, it, {
-        inputs->stream.filename = *it;
-        inputs->stream.fd = open(inputs->stream.filename, O_RDONLY);
-        __assert(inputs->stream.fd >= 0, "failed to open input file: %s", inputs->stream.filename);
-        __assert(fstat(inputs->stream.fd, &inputs->stream.st) == 0, "failed to stat input file: %s", inputs->stream.filename);
-        ++inputs->size;
+        inputs[__i].stream.filename = *it;
+        inputs[__i].stream.fd = open(inputs[__i].stream.filename, O_RDONLY);
+        __assert(inputs[__i].stream.fd >= 0, "failed to open input file: %s", inputs[__i].stream.filename);
+        __assert(fstat(inputs[__i].stream.fd, &inputs[__i].stream.st) == 0, "failed to stat input file: %s", inputs[__i].stream.filename);
     });
 }
 
@@ -108,9 +106,9 @@ static void linker_ctor(void *instance, va_list *args)
     self->output.stream.filename = va_arg(*args, const char *);
     self->flags = va_arg(*args, int);
 
-    allocate(self->inputs, sizeof(InputCPOFile));
-    self->inputs->size = 0;
+    allocate(self->inputs, sizeof(InputCPOFile) * array->size(array));
     linker_load_inputs(self, array);
+    self->input_count = array->size(array);
 }
 
 /** 
@@ -120,7 +118,7 @@ static void linker_dtor(void *instance)
 {
     Linker *self = (Linker *) instance;
 
-    for (u32 i = 0; i < self->inputs->size; ++i) {
+    for (u32 i = 0; i < self->input_count; ++i) {
         if (self->inputs->stream.fd >= 0) {
             close(self->inputs->stream.fd);
             self->inputs->stream.fd = -1;

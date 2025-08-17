@@ -9,7 +9,6 @@
 typedef struct {
     CPlusHeader header;
     IOStream stream;
-    u32 size;
 } InputCPOFile;
 
 typedef struct {
@@ -23,6 +22,7 @@ typedef struct Linker {
 
     InputCPOFile *inputs;
     BinaryElfFile output;
+    size_t input_count;
     int flags;
 } Linker;
 
