@@ -1,3 +1,4 @@
+#include "cplus/lexer.h"
 #include <cplus/header.h>
 #include <error/assert.h>
 #include <parse_arguments.h>
@@ -34,4 +35,11 @@ int main(const int argc, const char **argv)
     if (args.flags & ARGUMENT_FLAG_VERSION) {
         return version(argv[0]);
     }
+
+    Lexer *lexer = new (LexerClass, args.inputs, args.output, args.flags);
+
+    lexer->lex(lexer);
+    lexer->show(lexer);
+
+    return 0;
 }
