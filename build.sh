@@ -72,7 +72,7 @@ function _clean()
 function _fclean()
 {
     _clean
-    rm -rf $PROGRAM_NAME $UNIT_TESTS_NAME plugins code_coverage.txt $UNIT_TESTS_NAME-*.profraw $UNIT_TESTS_NAME.profdata vgcore* cmake-build-debug
+    rm -rf $PROGRAM_NAME $UNIT_TESTS_NAME plugins code_coverage.txt $UNIT_TESTS_NAME-*.profraw $UNIT_TESTS_NAME.profdata vgcore* cmake-build-debug *.a
 }
 
 for args in "$@"
