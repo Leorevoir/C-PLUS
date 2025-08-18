@@ -17,7 +17,8 @@ typedef enum {
     AST_UNOP,
     AST_IDENT,
     AST_NUMBER,
-    AST_STRING
+    AST_STRING,
+    AST_EXPRSTMT
 } ASTKind;
 
 typedef struct {
@@ -93,6 +94,10 @@ typedef struct {
     StrView value;
 } ASTString;
 
+typedef struct {
+    AST *expr;
+} ASTExprStmt;
+
 struct AST {
     ASTKind kind;
     u64 line;
@@ -112,6 +117,7 @@ struct AST {
         ASTIdent ident;
         ASTNumber number;
         ASTString string;
+        ASTExprStmt exprstmt;
     };
 };
 

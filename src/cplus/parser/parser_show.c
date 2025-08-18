@@ -130,6 +130,12 @@ static __inline void ast_string_dump(const ASTString *s, int indent)
     printf("\n");
 }
 
+static __inline void ast_exprstmt_dump(const ASTExprStmt *e, int indent)
+{
+    printf("%.*sExprStmt\n", indent, pad);
+    ast_dump(e->expr, indent + 2);
+}
+
 static void ast_dump(const AST *n, int indent)
 {
     if (!n) {
@@ -189,6 +195,10 @@ static void ast_dump(const AST *n, int indent)
 
         case AST_STRING:
             ast_string_dump(&n->string, indent);
+            break;
+
+        case AST_EXPRSTMT:
+            ast_exprstmt_dump(&n->exprstmt, indent);
             break;
 
         default:

@@ -93,22 +93,30 @@ static AST *maybe_call(Parser *p, AST *left)
         if (!t || t->kind != CPLUS_TOKEN_KIND_OPEN_PAREN) {
             break;
         }
-        AST *call = node_new(AST_CALL, left->line, left->column);
 
+        advance(p);
+
+        AST *call = node_new(AST_CALL, left->line, left->column);
         call->call.name = (left->kind == AST_IDENT) ? left->ident.name : (StrView) {.ptr = "<expr>", .len = 6};
 
         const CPlusToken *pk = peek(p);
-
         if (pk && pk->kind != CPLUS_TOKEN_KIND_CLOSE_PAREN) {
             for (;;) {
                 AST *arg = parse_expression(p);
+                if (!arg) {
+                    p->error = (typeof(p->error)) {.panic = true,
+                        .msg = "expected expression in call",
+                        .line = pk ? pk->line : 0,
+                        .column = pk ? pk->column : 0};
+                    break;
+                }
                 ast_list_push(&call->call.args, arg);
-
                 if (!match(p, CPLUS_TOKEN_KIND_COMMA)) {
                     break;
                 }
             }
         }
+
         expect(p, CPLUS_TOKEN_KIND_CLOSE_PAREN, "expected ')'");
         left = call;
     }

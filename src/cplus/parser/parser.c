@@ -50,12 +50,12 @@ static void parser_ctor(void *instance, va_list *args)
     const Lexer *lexer = va_arg(*args, const Lexer *);
 
     self->tokens = lexer->input.tokens;
-    self->buffer = (const char *) lexer->input.stream.buffer;
-    self->buffer_size = lexer->input.stream.size;
+    self->buffer = (const char *) lexer->input.io.buffer;
+    self->buffer_size = lexer->input.io.size;
     self->root = NULL;
 }
 
-static void parser_dtor(void *instance)
+static void parser_dtor(void __cplus__unused *instance)
 {
-    (void) instance;
+    /* __garbaged__collected__ */
 }
