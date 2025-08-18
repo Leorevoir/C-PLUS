@@ -1,3 +1,4 @@
+#include "cpa/cpa.h"
 #include "cplus/lexer.h"
 #include "cplus/parser.h"
 #include <cplus/header.h>
@@ -55,8 +56,10 @@ static __inline void cplus_compiler_routine(void)
     array_foreach(args.inputs, const char *, input, {
         const Lexer *lexer = cplus_compiler_lexer(*input);
         const Parser *parser = cplus_compiler_parser(lexer);
+        CPAssembly *assembly = new (CPAssemblyClass, parser->root, *input);
 
-        (void) parser;
+        assembly->assemble(assembly);
+        (void) assembly;
     });
 }
 

@@ -1,23 +1,4 @@
-.magic    "CPLUS"
-.version  0x00, 0x01
-.arch     x86_64
-.entry    main
-
-.section .text
-
-add:
-    add r2, r0, r1   ; r0 = a, r1 = b
-    mov r0, r2       ; return r0
-    ret
-
-main:
-    mov_imm r0, 2
-    mov_imm r1, 3
-    call add         ; r0 = add(2,3)
-
-    mov_str r1, "result: "
-    call concat, r1, r0
-    call print, r0
-
-    mov_imm r0, 0
-    ret
+	.file	"example/main.cp"
+	.text
+	.globl
+	.type

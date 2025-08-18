@@ -19,7 +19,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(external/OOP-in-C EXCLUDE_FROM_ALL)
 
-file(GLOB_RECURSE SRC_CPLUS "src/cplus/*.c" "src/parse_arguments.c")
+file(GLOB_RECURSE SRC_CPLUS "src/*.c")
 
 add_executable(cplus ${SRC_CPLUS})
 target_link_libraries(cplus PRIVATE cplus_oop)
