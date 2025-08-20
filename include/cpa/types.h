@@ -1,5 +1,5 @@
-#ifndef CPLUS_LD_INST_TYPES_H_
-#define CPLUS_LD_INST_TYPES_H_
+#ifndef CPLUS_CPA_TYPES_H_
+#define CPLUS_CPA_TYPES_H_
 
 #include <cplus/types.h>
 
@@ -8,7 +8,19 @@ typedef enum {
     TYPE_FLOAT,
     TYPE_STRING,
     TYPE_BOOL,
-} CPlusType;
+    TYPE_UNKNOWN,
+} CPlusTypeKind;
+
+typedef struct {
+    CPlusTypeKind kind;
+} CPlusTypeInfo;
+
+static __inline CPlusTypeInfo cplus_type_info(const CPlusTypeKind k)
+{
+    return (const CPlusTypeInfo) {
+        .kind = k,
+    };
+}
 
 typedef enum {
 
@@ -48,13 +60,13 @@ typedef enum {
 
     INST_RET,
     INST_HALT,
-} CPlusInstType;
+} CPlusInstTypeKind;
 
 typedef struct {
-    CPlusInstType type;
+    CPlusInstTypeKind type;
     u8 dest;
     u8 src[2];
     u8 imm;
 } CPlusInst;
 
-#endif /* CPLUS_LD_INST_TYPES_H_ */
+#endif /* CPLUS_CPA_TYPES_H_ */
