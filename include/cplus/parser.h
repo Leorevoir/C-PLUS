@@ -15,6 +15,7 @@ typedef struct Parser {
 
     const Array *tokens;
     const char *buffer;
+    const char *input;
     u64 buffer_size;
     u64 cursor;
 

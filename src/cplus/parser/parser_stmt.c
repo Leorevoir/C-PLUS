@@ -189,6 +189,7 @@ __cplus__used AST *parse_module(Parser *p)
 {
     AST *m = node_new(AST_MODULE, 1, 1);
 
+    m->module.name = (const StrView) {.ptr = p->input, .len = strlen(p->input)};
     for (;;) {
         const CPlusToken *t = peek(p);
 

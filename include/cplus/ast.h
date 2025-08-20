@@ -34,6 +34,7 @@ typedef struct {
 } ASTList;
 
 typedef struct {
+    StrView name;
     ASTList items;
 } ASTModule;
 

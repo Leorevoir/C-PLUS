@@ -22,7 +22,9 @@ static __inline void sv_dump(const StrView s)
 
 static __inline void ast_module_dump(const ASTModule *m, int indent)
 {
-    printf("%.*sModule\n", indent, pad);
+    printf("%.*sModule \"", indent, pad);
+    sv_dump(m->name);
+    printf("\"\n");
     for (size_t i = 0; i < m->items.len; ++i) {
         ast_dump(m->items.data[i], indent + 2);
     }
