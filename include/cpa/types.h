@@ -9,6 +9,7 @@ typedef enum {
     TYPE_FLOAT,
     TYPE_STRING,
     TYPE_BOOL,
+    TYPE_NULL,
     TYPE_UNKNOWN,
 } CPlusTypeKind;
 
@@ -70,5 +71,38 @@ typedef struct {
     u8 src[2];
     u8 imm;
 } CPlusInst;
+
+static __inline CPlusTypeInfo T(const CPlusTypeKind kind)
+{
+    CPlusTypeInfo type_info;
+
+    type_info.name.ptr = NULL;
+    type_info.name.len = 0;
+    type_info.kind = kind;
+    return type_info;
+}
+
+__cplus__const static __inline const char *cplus_type_name(const CPlusTypeInfo type_info)
+{
+    switch (type_info.kind) {
+        case TYPE_INT:
+            return "int";
+        case TYPE_FLOAT:
+            return "float";
+        case TYPE_STRING:
+            return "string";
+        case TYPE_BOOL:
+            return "bool";
+        case TYPE_NULL:
+            return "null";
+        default:
+            return "<unknown>";
+    }
+}
+
+static __inline bool cplus_type_eq(const CPlusTypeInfo a, const CPlusTypeInfo b)
+{
+    return (a.kind == b.kind);
+}
 
 #endif /* CPLUS_CPA_TYPES_H_ */
