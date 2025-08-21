@@ -105,7 +105,8 @@ static AST *parse_statement(Parser *p)
     }
 
     if (t->kind == CPLUS_TOKEN_KIND_NAME) {
-        StrView sv = sv_from(p, t);
+        const StrView sv = sv_from(p, t);
+
         if (sv.len == 6 && strncmp(sv.ptr, "return", 6) == 0) {
             advance(p);
             AST *e = parse_expression(p);
@@ -134,7 +135,10 @@ static AST *parse_statement(Parser *p)
 
     AST *e = parse_expression(p);
     expect(p, CPLUS_TOKEN_KIND_SEMICOLON, "expected ';' after expression");
-    return e;
+
+    AST *st = node_new(AST_EXPRSTMT, e ? e->line : 0, e ? e->column : 0);
+    st->exprstmt.expr = e;
+    return st;
 }
 
 static AST *parse_function(Parser *p)
@@ -185,6 +189,7 @@ __cplus__used AST *parse_module(Parser *p)
 {
     AST *m = node_new(AST_MODULE, 1, 1);
 
+    m->module.name = (const StrView) {.ptr = p->input, .len = strlen(p->input)};
     for (;;) {
         const CPlusToken *t = peek(p);
 

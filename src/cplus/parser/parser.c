@@ -3,6 +3,7 @@
 
 #include <oop/array.h>
 #include <parse_arguments.h>
+#include <string.h>
 
 void parser_show(const Parser *self);
 AST *parse_module(Parser *self);
@@ -39,6 +40,16 @@ static void parser_ast(Parser *self)
 * private
 */
 
+static __inline const char *_parser_get_only_filename(const char *absolute_input)
+{
+    const char *filename = strrchr(absolute_input, '/');
+
+    if (filename != NULL) {
+        return ++filename;
+    }
+    return absolute_input;
+}
+
 static void parser_ctor(void *instance, va_list *args)
 {
     Parser *self = (Parser *) instance;
@@ -49,13 +60,14 @@ static void parser_ctor(void *instance, va_list *args)
 
     const Lexer *lexer = va_arg(*args, const Lexer *);
 
+    self->input = _parser_get_only_filename(lexer->input.io.filename);
     self->tokens = lexer->input.tokens;
-    self->buffer = (const char *) lexer->input.stream.buffer;
-    self->buffer_size = lexer->input.stream.size;
+    self->buffer = (const char *) lexer->input.io.buffer;
+    self->buffer_size = lexer->input.io.size;
     self->root = NULL;
 }
 
-static void parser_dtor(void *instance)
+static void parser_dtor(void __cplus__unused *instance)
 {
-    (void) instance;
+    /* __garbaged__collected__ */
 }

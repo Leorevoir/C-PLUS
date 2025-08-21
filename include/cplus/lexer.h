@@ -120,7 +120,7 @@ typedef struct {
 } CPlusToken;
 
 typedef struct {
-    IOStream stream;
+    IOStream io;
     Array *tokens;
 } CPlusFile;
 

@@ -54,7 +54,7 @@ Arguments parse_arguments(const int argc, const char **argv)
     }
 
     if (args.flags & ARGUMENT_FLAG_NONE) {
-        __assert(args.inputs->_priv._size > 0, "no input files specified");
+        __assert(args.inputs->size(args.inputs) > 0, "no input files specified");
     }
     return args;
 }

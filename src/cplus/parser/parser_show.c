@@ -22,7 +22,9 @@ static __inline void sv_dump(const StrView s)
 
 static __inline void ast_module_dump(const ASTModule *m, int indent)
 {
-    printf("%.*sModule\n", indent, pad);
+    printf("%.*sModule \"", indent, pad);
+    sv_dump(m->name);
+    printf("\"\n");
     for (size_t i = 0; i < m->items.len; ++i) {
         ast_dump(m->items.data[i], indent + 2);
     }
@@ -130,6 +132,12 @@ static __inline void ast_string_dump(const ASTString *s, int indent)
     printf("\n");
 }
 
+static __inline void ast_exprstmt_dump(const ASTExprStmt *e, int indent)
+{
+    printf("%.*sExprStmt\n", indent, pad);
+    ast_dump(e->expr, indent + 2);
+}
+
 static void ast_dump(const AST *n, int indent)
 {
     if (!n) {
@@ -189,6 +197,10 @@ static void ast_dump(const AST *n, int indent)
 
         case AST_STRING:
             ast_string_dump(&n->string, indent);
+            break;
+
+        case AST_EXPRSTMT:
+            ast_exprstmt_dump(&n->exprstmt, indent);
             break;
 
         default:
