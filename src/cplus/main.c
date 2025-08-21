@@ -1,6 +1,7 @@
 #include "cpa/cpa.h"
 #include "cplus/lexer.h"
 #include "cplus/parser.h"
+#include "memory/garbage_collector.h"
 #include <cplus/header.h>
 #include <error/assert.h>
 #include <parse_arguments.h>
@@ -29,7 +30,7 @@ static __inline int version(const char *program)
     return 0;
 }
 
-static __inline const Lexer *cplus_compiler_lexer(const char *input)
+static __inline Lexer *cplus_compiler_lexer(const char *input)
 {
     Lexer *lexer = new (LexerClass, input);
 
@@ -37,10 +38,10 @@ static __inline const Lexer *cplus_compiler_lexer(const char *input)
     if (args.flags & ARGUMENT_FLAG_DEBUG) {
         lexer->show(lexer);
     }
-    return (const Lexer *) lexer;
+    return lexer;
 }
 
-static __inline const Parser *cplus_compiler_parser(const Lexer *lexer)
+static __inline Parser *cplus_compiler_parser(const Lexer *lexer)
 {
     Parser *parser = new (ParserClass, lexer);
 
@@ -48,18 +49,20 @@ static __inline const Parser *cplus_compiler_parser(const Lexer *lexer)
     if (args.flags & ARGUMENT_FLAG_DEBUG) {
         parser->show(parser);
     }
-    return (const Parser *) parser;
+    return parser;
 }
 
 static __inline void cplus_compiler_routine(void)
 {
     array_foreach(args.inputs, const char *, input, {
-        const Lexer *lexer = cplus_compiler_lexer(*input);
-        const Parser *parser = cplus_compiler_parser(lexer);
+        Lexer *lexer = cplus_compiler_lexer(*input);
+        Parser *parser = cplus_compiler_parser(lexer);
         CPAssembly *assembly = new (CPAssemblyClass, parser->root, *input);
 
         assembly->assemble(assembly);
-        (void) assembly;
+        delete (lexer);
+        delete (parser);
+        delete (assembly);
     });
 }
 

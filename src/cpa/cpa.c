@@ -25,7 +25,9 @@ __cplus__const const Class *CPAssemblyGetClass(void)
 
 static void cpassembly_assemble(CPAssembly *self)
 {
+    cpassembly_semantic_analysis(self->root);
     cpassembly_emit_header(self);
+    io_stream_liberate(&self->output);
 }
 
 /**
@@ -41,11 +43,12 @@ static void cpassembly_ctor(void *instance, va_list *args)
     self->root = va_arg(*args, AST *);
     self->src = va_arg(*args, const char *);
     self->output.filename = add_extension(self->src, ".cpa");
+    self->output.buffer = NULL;
 
     io_stream_allocate(&self->output, "wb");
 }
 
-static void cpassembly_dtor(void __cplus__unused *instance)
+static void cpassembly_dtor(void *instance)
 {
     io_stream_liberate(&((CPAssembly *) instance)->output);
 }

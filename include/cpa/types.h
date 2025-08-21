@@ -2,6 +2,7 @@
 #define CPLUS_CPA_TYPES_H_
 
 #include <cplus/types.h>
+#include <oop/string.h>
 
 typedef enum {
     TYPE_INT,
@@ -12,15 +13,16 @@ typedef enum {
 } CPlusTypeKind;
 
 typedef struct {
+    StrView name;
     CPlusTypeKind kind;
 } CPlusTypeInfo;
 
-static __inline CPlusTypeInfo cplus_type_info(const CPlusTypeKind k)
-{
-    return (const CPlusTypeInfo) {
-        .kind = k,
-    };
-}
+typedef struct {
+    StrView name;
+    CPlusTypeInfo *params;
+    u64 param_count;
+    CPlusTypeInfo return_type;
+} CPlusFuncInfo;
 
 typedef enum {
 

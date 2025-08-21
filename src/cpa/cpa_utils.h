@@ -3,6 +3,7 @@
 
 #include <cpa/cpa.h>
 
+void cpassembly_semantic_analysis(AST *root);
 void cpassembly_emit_header(CPAssembly *self);
 
 #endif /* CPLUS_CPA_CPA_UTILS_H_ */

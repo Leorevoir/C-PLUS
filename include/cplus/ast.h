@@ -3,6 +3,7 @@
 
 #include <cplus/types.h>
 #include <memory/allocate.h>
+#include <oop/string.h>
 
 typedef enum {
     AST_MODULE,
@@ -21,10 +22,6 @@ typedef enum {
     AST_EXPRSTMT
 } ASTKind;
 
-typedef struct {
-    const char *ptr;
-    u64 len;
-} StrView;
 typedef struct AST AST;
 
 typedef struct {
